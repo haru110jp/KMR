@@ -30,7 +30,6 @@ for i in np.arange(N/3,N+1,dtype=int):
 	for sinplicity, when i = N/3 we assume  it behaves the same way as when i>N/3 
 	"""	
 	A[i-1,i-2] = (i/N)*(1-epsilon/2)
-	A[i-1,i-1] = 1 - epsilon/2 - (i/N)*(epsilon -1)
 	A[i-1,i] = (epsilon/2)*(1 - i/N)
 
 A[0,0] = 1 - epsilon/2
@@ -40,16 +39,7 @@ A[N,N-1] = epsilon/2
 A[N,N] = 1 - epsilon/2
 
 #compute the prob distriipution
-state = np.zeros(N+1) 
-state[500] = 1 #you can choose initial state here
-state = np.matrix(state)
-state.transpose()
 
-
-for i in range(1000): #increase the number if you wanna repeat more.
-	state = A*state
-
-
-print(state) 
+print(mc_compute_stationary(A))
 
 	
