@@ -1,36 +1,31 @@
 from __future__ import division
-from random import uniform,randint
-import matplotlib.pyplot as ply
+import matplotlib.pyplot as plt
 import numpy as np
-from scipy import sparse
 import discrete_rv
 from mc_tools import *
 
 #this program is designed for 2*2 game
 
-N = 1000 #the number of players
+N = 10 #the number of players
 p = 1/3 
 """"
 if the ratio of players playing 0 exceeds p, we will end up the equilibrium(0,0) in an unperturbed game
 I think it's better if I can compute the value of p in this program.For now,we assume it's exogenous.
 """
-epsilon = 0.1
-
+epsilon = 0.2
 
 #setting up the transition matrix
-A = sparse.lil_matrix((N+1, N+1)) 
-for i in np.arange(1,N/3): # list[1,2,....integer a little less than N/3]
-	A[i,i-1] = 1 - epsilon/2 + (i/N)*(epsilon/2 - 1)
-	A[i,i] = epsilon/2 + (i/N)*(1 - epsilon)
-	A[i,i+1] = (i/N)*epsilon/2
-	
-for i in np.arange(N/3,N+1,dtype=int):
-	"""
-	#list[integer a little less than N/3,......N] 
-	for sinplicity, when i = N/3 we assume  it behaves the same way as when i>N/3 
-	"""	
-	A[i-1,i-2] = (i/N)*(1-epsilon/2)
-	A[i-1,i] = (epsilon/2)*(1 - i/N)
+A = np.zeros((N+1,N+1))
+for n in range(1, N):
+	A[n, n-1] = \
+	    (n/N) * (epsilon * (1/2) +
+                     (1 - epsilon) * (((n)/(N) < p) + ((n)/(N) == p) * (1/2))
+                     )
+	A[n, n+1] = \
+            ((N-n)/N) * (epsilon * (1/2) +
+                         (1 - epsilon) * ((n/(N) > p) + (n/(N) == p) * (1/2))
+                         )
+	A[n,n] = 1- A[n,n-1] - A[n,n+1]
 
 A[0,0] = 1 - epsilon/2
 A[0,1] = epsilon/2
@@ -38,8 +33,13 @@ A[0,1] = epsilon/2
 A[N,N-1] = epsilon/2
 A[N,N] = 1 - epsilon/2
 
-#compute the prob distriipution
-
+#compute the prob distribution
 print(mc_compute_stationary(A))
 
-	
+"""
+X = mc_sample_path(A)
+
+fig, ax = plt.subplots(figsize=(9, 6))
+ax.plot(X)
+plt.show()
+"""
