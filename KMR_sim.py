@@ -6,13 +6,13 @@ from mc_tools import *
 
 #this program is designed for 2*2 game
 
-N = 10 #the number of players
+N = 6 #the number of players
 p = 1/3 
 """"
 if the ratio of players playing 0 exceeds p, we will end up the equilibrium(0,0) in an unperturbed game
 I think it's better if I can compute the value of p in this program.For now,we assume it's exogenous.
 """
-epsilon = 0.2
+epsilon = 0.01
 
 #setting up the transition matrix
 A = np.zeros((N+1,N+1))
@@ -34,7 +34,10 @@ A[N,N-1] = epsilon/2
 A[N,N] = 1 - epsilon/2
 
 #compute the prob distribution
-print(mc_compute_stationary(A))
+Y = mc_compute_stationary(A)
+fig, ax = plt.subplots()
+ax.bar(range(N+1), Y, align='center')
+plt.show()
 
 """
 X = mc_sample_path(A)
