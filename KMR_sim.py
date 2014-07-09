@@ -40,7 +40,7 @@ ax.bar(range(N+1), Y, align='center')
 plt.show()
 #なぜか、Nを大きくすると上手く計算できません（定常状態にマイナスが大量に混ざります）　”丸め”か何かのせいでしょうか…
 
-
+"""
 #plot the sample path
 X = mc_sample_path(A,sample_size=1000000)
 
@@ -59,3 +59,4 @@ hist, bins = np.histogram(X, N+1)
 ax.bar(range(N+1), hist, align='center')
 
 plt.show()
+"""
