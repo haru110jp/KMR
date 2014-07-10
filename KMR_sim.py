@@ -64,3 +64,17 @@ def plot_histo_empirical(A,init=0,sample_size=1000000):
 	ax.bar(range(N+1), hist, align='center')
 
 	plt.show()
+	
+
+def check_stationary(N=6,p=1/3,epsilon=0.01): #returns the minimum N which creates transition matrix with an negative element(contradiction)
+ 	counter = 1
+	while 1:
+		A = set_tran_matrix(counter,p,epsilon)
+		Y = mc_compute_stationary(A)
+		if sum(Y >= 0) == counter+1: #all elements are >=0
+			counter += 1
+		else:
+			return counter
+		
+		if counter == N:
+			return "OK"
