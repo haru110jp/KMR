@@ -8,3 +8,4 @@ Kandori--Mailath-Rob Model :simulation
 ![stationary_histogram](stationary_histo.png)
 
 http://nbviewer.ipython.org/github/haru110jp/KMR/blob/master/Untitled2.ipynb
+http://nbviewer.ipython.org/github/haru110jp/KMR/blob/master/Untitled3.ipynb
